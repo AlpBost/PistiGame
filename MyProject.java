@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.Random;
 
-public class My Project {
+public class MyProject {
 	Random rd = new Random(System.currentTimeMillis());
 	int [] deck = new int [52];
 	int [] ♦ = new int [13];
