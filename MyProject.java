@@ -1,41 +1,34 @@
 import java.util.Scanner;
-import java.util.Random;
 
 public class MyProject {
-	Random rd = new Random(System.currentTimeMillis());
-	int [] deck = new int [52];
-	int [] ♦ = new int [13];
-	int [] ♥ = new int [13];
-	int [] ♣ = new int [13];
-	int [] ♠ = new int [13];
-	// started deck
-	for (int i= 2; i<11; i++) {
-		♦ [i] = i ;
-		♥ [i] = i ;
-		♣ [i] = i ;
-		♠ [i] = i ;
-	}// gaven point
-	♦ [1] = A;
-	♥ [1] = A;
-	♣ [1] = A;
-	♠ [1] = A;
+	
+	
+	
+	
+	public static void main(String[] args) {
+		int [] deck = new int [52];
+		String[] shapes = { " ♦", " ♥", " ♣", " ♠"};
+		String[] others = { "A", "1","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
+		for (int i = 0; i < deck.length; i++) {
+			deck[i]=i;
+		}
+		
+		for (int i = 0; i < deck.length; i++) {
+			int value = (int)(Math.random()*deck.length);
+			int not = deck[i];
+			deck[i] = deck [value];
+			deck[value] = not;
+		}
+		for (int i = 0; i < 52; i++) {
+			String shape = shapes[deck[i]/13];
+			String other = others[deck[i]%13];
+			System.out.println(shape + "" + other );
+		}
+	
+		
+		
 
-	♦ [11] = J;
-	♥ [11] = J;
-	♣ [11] = J;
-	♠ [11] = J;
-
-	♦ [12] = Q;
-	♥ [12] = Q;
-	♣ [12] = Q;
-	♠ [12] = Q;
-
-	♦ [13] = K;
-	♥ [13] = K;
-	♣ [13] = K;
-	♠ [13] = K;
-
-	//dont forget to shuffle 
+		
 
 	
 
