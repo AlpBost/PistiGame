@@ -7,7 +7,7 @@ public class Main {
 		card.Deck();
 		card.Shuffle();
 		card.DealandSelect();	
-		
+		card.EndGame();
 		
 	}
 

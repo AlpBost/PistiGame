@@ -1,7 +1,8 @@
 public class Point {
 	private int[] Cardpoints = new int[52];
 	public int player1point;
-	private int comppoint;
+	public int comppoint;
+	public int heplerp;
 	
 	
 	//SET-GET(0)
