@@ -3,6 +3,7 @@ public class Deck {
 	public String shape;
 	public String num;
 	
+	
 	Deck() {
 		this.shape = "helper";
 		this.num = "helper";
@@ -17,7 +18,7 @@ public class Deck {
 	}
 	
 	//SET-GET1
-	public String getNum() {
+	public Object getNum() {
 		return num;
 	}
 	public void setNum(String Num) {
