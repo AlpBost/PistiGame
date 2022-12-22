@@ -2,10 +2,10 @@ import java.util.Scanner;
 import java.util.Random;
 public class Card {
 	
-	private Deck[] TableDeck = new Deck[4];
-	private Deck[] player1 = new Deck[4];
-	private Deck[] playercomp = new Deck[4];
-	
+	Deck[] table = new Deck[52];
+	public Deck[] player1 = new Deck[4];
+	public Deck[] playercomp = new Deck[4];
+	Point point = new Point();
 	Deck[] deck = new Deck[52];
 	public String[] shapes = { "MACA " ,"KARO ","SINEK ","KUPA " /*" ♠ ", " ♥ ", " ♣ " ," ♦ "*/};
 	public String[] others = { "A","2","3","4","5","6","7","8","9","10","J","Q","K"};
@@ -79,12 +79,25 @@ public class Card {
 		public void DealandSelect() {
 						
 			Scanner sc = new Scanner(System.in);
-			String topcard = deck[8].getShape() + deck[8].getNum();
+
+			int lastindex=0; //HOW MANY CARDS ON THE TABLE AND WHAT IS THE TOP ONE
+			
+			//PREPARING TABLE CARD
+			System.out.println("_____________________________________________");
+			System.out.println("              -TABLE DECK-        ");
+			for (int i=8;i<12;i++) {
+				table[i-8] = deck[i];
+				if (i==11) {
+					System.out.println("TOP CARD ->   " + table[3].getShape()+table[3].getNum());
+				} 
+			}
+			int tur =0;
 			
 			//DEAL
 			for(int a=0;a<6;a++) {
 				
-				int tur =0;
+				
+	
 				//GIVING CARDS ONE BY ONE
 				for (int i=0;i<8;i++) {
 					if (i % 2 == 0) {
@@ -93,36 +106,26 @@ public class Card {
 						playercomp[(i-1)/2] = deck[i+tur] ;
 					}
 				}
-				System.out.println("____________________" + (a+1) +"________________________");
-				
-				//PREPARING TABLE CARD
-				System.out.println("              -TABLE DECK-        ");
-				for (int i=8;i<12;i++) {
-					TableDeck[i-8] = deck[i+tur];
-					if (i==11) {
-						System.out.println("TOP CARD ->   " + topcard);
-					} 
-				}
-				System.out.println("_____________________________________________");
+				System.out.println("____________________" + (a+1) +"________________________");				
 				
 				//SHOWING CARD TO PLAYER
 				System.out.println("               -YOUR CARDS-     ");
-				int num = 1;
+				int m = 1;
 				for(int i=0; i<8; i=i+2) {
-					System.out.print(num + "-" + player1[i/2].getShape()+player1[i/2].getNum() + "   ");
-					num++;
+					System.out.print(m + "-" + player1[i/2].getShape()+player1[i/2].getNum() + "   ");
+					m++;
 				}
 				System.out.println(" ");
 				
 				
-				//CARD SELECT
-				System.out.println("_____________________________________________");
 				
 				//CHOOSING A CARD
-				System.out.println("SELECT A CARD POSITION TO PLAY ");
+				
 				
 				for(int i=0;i<4;i++) {
-				
+					//CARD SELECT
+					System.out.println("_____________________________________________");
+					System.out.println("SELECT A CARD POSITION TO PLAY ");
 					//ENTERING VALID NUMBER
 					int atılan = sc.nextInt();
 					
@@ -130,47 +133,81 @@ public class Card {
 						System.out.println("PLEASE ENTER VALID NUMBER");
 						atılan = sc.nextInt();
 					}
-					topcard = player1[atılan-1].getShape()+player1[atılan-1].getNum();
+					
+					lastindex++;
+					table[lastindex-1] = (player1[atılan-1]);
 		
 					
 					//PLAYER'S TURN
-					if ((/*deck[atılan-1]).getNum.equalsTo(topcard.getNum*/2==3)) {                       //ASK
+					if (((String) (deck[atılan-1]).getNum()).compareTo((String) table[lastindex-1].getNum())==0) { 
+						/*if (((String) (deck[atılan-1]) == "SINEK 2" || ((String)(table[lastindex-1]) == "SINEK 2") {
+							point.setcomppoint() = point.setcomppoint() +2;*/
+						
 						System.out.println("ALL CARDS ARE YOURS");
 						System.out.println("_____________________________________________");
 						System.out.println("TOP CARD -> " );
 						
 					} else {
-						System.out.println("TOP CARD -> " + topcard);
+						System.out.println("TOP CARD -> " + table[lastindex-1].getShape()+ table[lastindex-1].getNum());
 						System.out.println("_____________________________________________");
 					}
 					player1[atılan-1] = null;                                                     //ASK (162)
 
-					
-					
-					
 					//COMPUTER'S TURN
 					Random rd = new Random();
-					int compcard = rd.nextInt(4);
-					System.out.println("COMPUTER PLAYED = " + playercomp[compcard].getShape()+playercomp[compcard].getNum());
-					topcard = playercomp[compcard].getShape()+playercomp[compcard].getNum();
-					System.out.println("TOP CARD -> " + topcard);
-
+					int compcard = 0;
+					int helper =2;
+					while (helper==2) {
+						for(int s=0;s<4;s++) {
+							if (((String) playercomp[s].getNum()).compareTo((String) table[lastindex-1].getNum())==0) {
+								lastindex =1;
+								
+								System.out.println("COMPUTER PLAYED = " + playercomp[s].getShape()+playercomp[s].getNum());
+								System.out.println("ALL CARDS ARE COMPUTERS");
+								helper++;
+							}
+						}
+						if (helper==2) {
+							for(int d=0;d<4;d++) {
+								if (playercomp[d].getNum()=="j") {
+									lastindex =0;
+									System.out.println("COMPUTER PLAYED = " + playercomp[d].getShape()+playercomp[d].getNum());
+									System.out.println("ALL CARDS ARE COMPUTERS");
+									helper++;
+								}
+						}
+						if (helper==2) {
+							compcard = rd.nextInt(4);
+							System.out.println("COMPUTER PLAYED = " + playercomp[compcard].getShape()+playercomp[compcard].getNum());
+							lastindex ++;
+							table[lastindex-1] = playercomp[compcard];
+							System.out.println("TOP CARD -> " + table[lastindex-1].getShape()+playercomp[compcard].getNum());
+							helper++;
+						}
+						}
+					}
+				
+						
+					
+					
 					System.out.println("_____________________________________________");
 					System.out.println("               -YOUR CARDS-     ");
 					for (int j=0;j<4;j++) {
-						System.out.print(j+1 + "-" + player1[j].getShape()+player1[j].getNum()+ "   ");
+						if (player1[j]!=null) {
+							System.out.print(j+1 + "-" + player1[j].getShape()+player1[j].getNum()+ "   ");
+						} else { 
+							System.out.print(j+1 + "-     ");
+						}
+						
 					}
 					System.out.println(" ");
 					
-					//aynıysa kart
-					//vale varsa vale
-					//random
 					
-					tur=tur+8;
-				}
-				
+				}	
+				tur=tur+8;
 			}
-		}	
+		}
+		
 
 		public void EndGame() {
 			Point point = new Point();

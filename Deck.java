@@ -4,6 +4,7 @@ public class Deck {
 	public String num;
 	
 	
+	
 	Deck() {
 		this.shape = "helper";
 		this.num = "helper";

@@ -1,20 +1,11 @@
 public class Point {
-	private int[] Cardpoints = new int[52];
+	
 	public int player1point;
 	public int comppoint;
-	public int heplerp;
 	
 	
-	//SET-GET(0)
-	public int getCardpoints() {
-		return Cardpoints[0];
-	}
-	public void setCardpoints() {
+	
 		
-		this.Cardpoints[28] = 2;
-		this.Cardpoints[23] = 3;
-		}
-	
 	//SET-GET(1)
 	public int getplayer1point() {
 		return player1point;

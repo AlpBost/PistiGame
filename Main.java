@@ -6,6 +6,7 @@ public class Main {
 		
 		card.Deck();
 		card.Shuffle();
+		card.Cut();
 		card.DealandSelect();	
 		card.EndGame();
 		
