@@ -3,14 +3,14 @@ import java.util.Random;
 public class Card {
 	
 	Deck[] table = new Deck[52];
-	public Deck[] player1 = new Deck[4];
-	public Deck[] playercomp = new Deck[4];
 	Point point = new Point();
 	Deck[] deck = new Deck[52];
 	public String[] shapes = { "MACA " ,"KARO ","SINEK ","KUPA " /*" ♠ ", " ♥ ", " ♣ " ," ♦ "*/};
 	public String[] others = { "A","2","3","4","5","6","7","8","9","10","J","Q","K"};
-	
-
+	public Deck[] player1 = new Deck[4];
+	public Deck[] playercomp = new Deck[4];
+	public Deck[] P1taken = new Deck[52];
+	public Deck[] Pcomptaken = new Deck[52];
 	
 	
 	
@@ -89,6 +89,7 @@ public class Card {
 				table[i-8] = deck[i];
 				if (i==11) {
 					System.out.println("TOP CARD ->   " + table[3].getShape()+table[3].getNum());
+					lastindex = lastindex+4;
 				} 
 			}
 			int tur =0;
@@ -134,18 +135,33 @@ public class Card {
 						atılan = sc.nextInt();
 					}
 					
+					table[lastindex] = (player1[atılan-1]);
 					lastindex++;
-					table[lastindex-1] = (player1[atılan-1]);
-		
 					
 					//PLAYER'S TURN
-					if (((String) (deck[atılan-1]).getNum()).compareTo((String) table[lastindex-1].getNum())==0) { 
-						/*if (((String) (deck[atılan-1]) == "SINEK 2" || ((String)(table[lastindex-1]) == "SINEK 2") {
-							point.setcomppoint() = point.setcomppoint() +2;*/
-						
+					
+					if (lastindex != 0 || lastindex != 1 ) {
+						if (((String) (player1[atılan-1]).getNum()).compareTo((String) table[lastindex-2].getNum())==0) { 
+							/*if (((String) (deck[atılan-1]) == "SINEK 2" || ((String)(table[lastindex-1]) == "SINEK 2") {
+								point.setcomppoint() = point.setcomppoint() +2;*/
+							System.out.println("ALL CARDS ARE YOURS");
+							System.out.println("_____________________________________________");
+							System.out.println("TOP CARD -> " );
+							
+							for (int j=0;j<lastindex;j++) {
+								P1taken[j] = table[j];
+								table[j] = null;
+							}	
+						}
+					} else if ((String) (player1[atılan-1].getNum())== "j") {
 						System.out.println("ALL CARDS ARE YOURS");
 						System.out.println("_____________________________________________");
 						System.out.println("TOP CARD -> " );
+
+						for (int j=0;j<lastindex;j++) {
+							P1taken[j] = table[j];
+							table[j] = null;
+						}
 						
 					} else {
 						System.out.println("TOP CARD -> " + table[lastindex-1].getShape()+ table[lastindex-1].getNum());
@@ -157,35 +173,51 @@ public class Card {
 					Random rd = new Random();
 					int compcard = 0;
 					int helper =2;
-					while (helper==2) {
+					
+					
 						for(int s=0;s<4;s++) {
-							if (((String) playercomp[s].getNum()).compareTo((String) table[lastindex-1].getNum())==0) {
-								lastindex =1;
-								
+							if (lastindex != 0 || lastindex != 1 ) {
+								if (((String) playercomp[s].getNum()).compareTo((String) table[lastindex-2].getNum())==0) {
+									lastindex ++;
+									
+									System.out.println("COMPUTER PLAYED = " + playercomp[s].getShape()+playercomp[s].getNum());
+									System.out.println("ALL CARDS ARE COMPUTERS");
+									for (int j=0;j<lastindex;j++) {
+										Pcomptaken[j] = table[j];
+										table[j] = null;
+									}
+									helper++;
+								}
+							} else {
 								System.out.println("COMPUTER PLAYED = " + playercomp[s].getShape()+playercomp[s].getNum());
-								System.out.println("ALL CARDS ARE COMPUTERS");
+							}
+						}
+							if (helper==2) {
+								for(int d=0;d<4;d++) {
+									if (lastindex != 0 || lastindex != 1) {
+										if (playercomp[d].getNum()=="j") {
+											lastindex =0;
+											System.out.println("COMPUTER PLAYED = " + playercomp[d].getShape()+playercomp[d].getNum());
+											System.out.println("ALL CARDS ARE COMPUTERS");
+											for (int j=0;j<lastindex;j++) {
+												P1taken[j] = table[j];
+												table[j] = null;
+											}
+											helper++;
+										}
+									}
+							}
+								
+							if (helper==2) {
+								compcard = rd.nextInt(4);
+								System.out.println("COMPUTER PLAYED = " + playercomp[compcard].getShape()+playercomp[compcard].getNum());
+								lastindex ++;
+								table[lastindex-1] = playercomp[compcard];
+								System.out.println("TOP CARD -> " + table[lastindex-1].getShape()+playercomp[compcard].getNum());
 								helper++;
 							}
 						}
-						if (helper==2) {
-							for(int d=0;d<4;d++) {
-								if (playercomp[d].getNum()=="j") {
-									lastindex =0;
-									System.out.println("COMPUTER PLAYED = " + playercomp[d].getShape()+playercomp[d].getNum());
-									System.out.println("ALL CARDS ARE COMPUTERS");
-									helper++;
-								}
-						}
-						if (helper==2) {
-							compcard = rd.nextInt(4);
-							System.out.println("COMPUTER PLAYED = " + playercomp[compcard].getShape()+playercomp[compcard].getNum());
-							lastindex ++;
-							table[lastindex-1] = playercomp[compcard];
-							System.out.println("TOP CARD -> " + table[lastindex-1].getShape()+playercomp[compcard].getNum());
-							helper++;
-						}
-						}
-					}
+					
 				
 						
 					

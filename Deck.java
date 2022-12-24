@@ -1,7 +1,7 @@
 
 public class Deck {
-	public String shape;
-	public String num;
+	private String shape;
+	private String num;
 	
 	
 	
