@@ -7,13 +7,12 @@ public class Point {
 	
 		
 	//SET-GET(1)
+	
+	public void setplayer1point(int point1) {
+		this.player1point += point1;
+	}
 	public int getplayer1point() {
 		return player1point;
-	}
-	public void setplayer1point(int point1) {
-		point1 =0;
-		this.player1point = player1point+point1;
-		System.out.println(player1point);
 	}
 	
 	//SET-GET(2)
