@@ -11,24 +11,15 @@ public class Card {
 	private Deck[] playercomp = new Deck[4];
 	private Deck[] P1taken = new Deck[52];
 	private Deck[] Pcomptaken = new Deck[52];
-	int P1takencardcounter =0; // I NEED IT TO COUNT PLAYER 1 CARDS
-	int P2takencardcounter=0;  // I NEED IT TO COUNT PLAYER 1 CARDS
+	private int P1takencardcounter =0; // I NEED IT TO COUNT PLAYER 1 CARDS
+	private int P2takencardcounter=0;  // I NEED IT TO COUNT PLAYER 1 CARDS
 	
 	Point point = new Point();
 
-	public void StartGame() {
-		Scanner sc=new Scanner(System.in);
-		
-		System.out.println("GAME IS STARTING!");
-		System.out.println("ENTER YOUR NAME TO START");
-		String name = sc.nextLine();
-		
-		
-
-	}
-	
 	public void Deck() {  
 	
+		System.out.println("GAME IS STARTING!");
+
 		//---------------------------------------------------------CREATING A DECK------------------------------------------------
 		for(int i = 0; i<52;i++) {
 			deck[i]=new Deck();
@@ -63,19 +54,21 @@ public class Card {
 		Random rd = new Random();
 		int randomcut = rd.nextInt(52);
 		Deck[] aftercut = new Deck[52];
-		Deck[] Cutup = new Deck[randomcut];
-		Deck[] Cutdown = new Deck[52-randomcut];
+		Deck[] Cutup = new Deck[52-randomcut];
+		Deck[] Cutdown = new Deck[randomcut];
 			
 			//-----------------------------------------------------FIRST PART OF THE DECK-----------------------------------------------
 			for(int i=0;i<randomcut;i++) {
-				Cutup[i] = deck[i];
-				aftercut[i] = Cutup[i];
+				Cutdown[i] = deck[i];
+				aftercut[i] = Cutdown[i];
 			}
 			
 			//-----------------------------------------------------SECOND PART OF THE DECK-----------------------------------------------
+			int a =0;
 			for (int i=randomcut; i<52; i++) {
-				Cutdown[i-randomcut] = deck[i];
-				aftercut[i] = Cutdown[i-randomcut];
+				Cutup[i-randomcut] = deck[i];
+				aftercut[i] = Cutup[a];
+				a++;
 			}
 			for (int i = 0; i<52; i++) {
 				deck[i]=aftercut[i];
@@ -119,7 +112,7 @@ public class Card {
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~" + (a+1) +"~~~~~~~~~~~~~~~~~~~~~~");				
 				
 				
-				//SHOWING CARD TO PLAYER
+				//-----------------------------------------------SHOWING CARD TO PLAYER----------------------------------------
 				System.out.println("               -YOUR CARDS-      ");
 				int m = 1;
 				for(int i=0; i<8; i=i+2) {
@@ -137,13 +130,26 @@ public class Card {
 					System.out.println("SELECT A CARD POSITION TO PLAY ");
 					
 					//ENTERING VALID NUMBER
-					int atılan = sc.nextInt();
+					int atılan;
 					
-					while (!(atılan == 1 || atılan == 2 || atılan == 3 || atılan == 4) || player1[atılan-1] == null ) {
-							System.out.println("PLEASE ENTER VALID NUMBER");
-							atılan = sc.nextInt();
+					while (true) {
+						String input = sc.nextLine().trim();
+						try {
+							atılan = Integer.parseInt(input);
+						} catch (Exception e) {
+							System.out.println("YOU SHOULD ENTER NUMBER");
+							continue;
+						}
+					
+					if ((atılan == 1 || atılan == 2 || atılan == 3 || atılan == 4) ) {
+						if(player1[atılan-1] != null) {
+						break;
+						}
+					}
+					System.out.println("PLEASE ENTER VALID NUMBER");
 					}
 					
+						
 					table[lastindex] = (player1[atılan-1]);
 					lastindex++;
 					
@@ -157,7 +163,6 @@ public class Card {
 							//-----PISTI-------
 							if(lastindex==2) {
 								point.setplayer1point(10);
-								System.out.println("---------------------------------------------------"+point.getplayer1point());
 
 								System.out.println("PISTI!!");
 							}
@@ -179,7 +184,6 @@ public class Card {
 								}
 								table[j] = null;
 							}
-							System.out.println("---------------------------------------------------"+point.getplayer1point());
 
 							
 							P1takencardcounter += lastindex ;
@@ -209,7 +213,6 @@ public class Card {
 								}
 								table[j] = null;
 							}
-							System.out.println("---------------------------------------------------"+point.getplayer1point());
 
 							P1takencardcounter += lastindex ;
 							lastindex = 0;
@@ -237,7 +240,6 @@ public class Card {
 									lastindex++;
 									if(lastindex==2) {
 										point.setcomppoint(10);
-										System.out.println("----------------------------------------------"+point.getcomppoint());
 										System.out.println("PISTI!!");
 									}
 									
@@ -254,7 +256,6 @@ public class Card {
 										}
 										table[j] = null;
 									}
-									System.out.println("---------------------------------------------------"+point.getcomppoint());
 
 									
 									P2takencardcounter += lastindex;
@@ -271,7 +272,7 @@ public class Card {
 							for(int d=0;d<4;d++) {
 								if(playercomp[d]!=null) {   // WHEN I SEARCHED THAT THE COMPUTER HAS J, SOME OF THESE HAVE A PROBLEM IF IT IS NULL.
 															// SO I WROTE IF IT IS NOT NULL, TO SEARCH IT
-									if (lastindex != 0 || lastindex != 1 || lastindex!=2 ) {
+									if (lastindex != 0 || lastindex != 1  ) {
 										if (playercomp[d].getNum()=="J") {
 											System.out.println("COMPUTER PLAYED = " + playercomp[d].getShape()+playercomp[d].getNum());
 											System.out.println("ALL CARDS ARE COMPUTERS");
